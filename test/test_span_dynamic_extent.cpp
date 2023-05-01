@@ -1123,6 +1123,21 @@ namespace
       CHECK_FALSE(view8 != view8);
     }
 
+#if ETL_USING_CPP11
+    //*************************************************************************
+    TEST(test_convert_span_any_to_span_byte)
+    {
+      /* mutable */ float data[2]{3.141592f, 2.71828f };
+
+      auto const const_bytes = etl::as_bytes(etl::span<float, etl::dynamic_extent>{data});
+      auto const writable_bytes = etl::as_writable_bytes(etl::span<float, etl::dynamic_extent>{data});
+
+      CHECK_TRUE(const_bytes.size() == sizeof(data));
+      CHECK_TRUE(writable_bytes.size() == sizeof(data));
+
+    }
+#endif
+
 #include "etl/private/diagnostic_pop.h"
   };
 }
