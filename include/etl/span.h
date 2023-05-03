@@ -945,16 +945,16 @@ namespace etl
   //*************************************************************************
 
   template <class T, std::size_t N>
-  auto as_bytes(span<T, N> s) ETL_NOEXCEPT
+  etl::span<const etl::byte, (N == etl::dynamic_extent) ? (etl::dynamic_extent) : (N * sizeof(T))> as_bytes(etl::span<T, N> s) ETL_NOEXCEPT
   {
-    return span <const byte, (N == etl::dynamic_extent) ? (etl::dynamic_extent) : (N * sizeof(T)) > {reinterpret_cast<byte*>(s.data()), s.size_bytes()};
+    return etl::span<const etl::byte, (N == etl::dynamic_extent) ? (etl::dynamic_extent) : (N * sizeof(T))>{reinterpret_cast<byte*>(s.data()), s.size_bytes()};
   }
 
   template <class T, std::size_t N>
-  auto as_writable_bytes(span<T, N> s) ETL_NOEXCEPT
+  etl::span<etl::byte, (N == etl::dynamic_extent) ? (etl::dynamic_extent) : (N * sizeof(T))> as_writable_bytes(etl::span<T, N> s) ETL_NOEXCEPT
   {
-    ETL_STATIC_ASSERT(not etl::is_const<T>::value, "span<T> must be of non-const type");
-    return span <byte, (N == etl::dynamic_extent) ? (etl::dynamic_extent) : (N * sizeof(T)) > {reinterpret_cast<byte*>(s.data()), s.size_bytes()};
+    ETL_STATIC_ASSERT(!etl::is_const<T>::value, "Type must be non-const");
+    return etl::span<etl::byte, (N == etl::dynamic_extent) ? (etl::dynamic_extent) : (N * sizeof(T))>{reinterpret_cast<byte*>(s.data()), s.size_bytes()};
   }
 
 }
