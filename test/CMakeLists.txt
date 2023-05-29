@@ -105,6 +105,7 @@ add_executable(etl_tests
 	test_etl_traits.cpp
 	test_exception.cpp
 	test_expected.cpp
+	test_finally.cpp
 	test_fixed_iterator.cpp
 	test_fixed_sized_memory_block_allocator.cpp
 	test_flags.cpp
